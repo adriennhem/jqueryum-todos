@@ -57,4 +57,24 @@ $(window).ready(function() {
             $('input').val('');
         }
       });
+
+      // 4. Delete todo
+      var deleteTodo = function(todoID) {
+        $.ajax({
+            type: 'DELETE',
+            url: `https://altcademy-to-do-list-api.herokuapp.com/tasks/${todoID}?api_key=${userID}`,
+            success: function (response, textStatus) {
+              $(`.todo[data-item=${todoID}]`).remove();
+            },
+            error: function (request, textStatus, errorMessage) {
+              console.log(errorMessage);
+            }
+          });
+      };
+
+      // 5. add event handler on delete button
+      $(document).on('click', '.remove-button', function() {
+        var todoID = $(this).parent().attr('data-item');
+        deleteTodo(todoID);
+      });
 });
